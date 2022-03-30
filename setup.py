@@ -5,7 +5,9 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name="example-package-linglp",
-    version="0.0.1",
+    use_scm_version=True,
+    #version="0.0.1",
+    setup_requires=['setuptools_scm'],
     author="Example Author",
     author_email="author@example.com",
     description="A small example package",
