@@ -1,13 +1,19 @@
 import setuptools
+def local_scheme(version):
+    return ""
 
 with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
+
+scm_version_options = {'write_to' : 'src/version.py'}
 setuptools.setup(
     name="example-package-linglp",
-    use_scm_version=True,
-    #version="0.0.1",
+    use_scm_version={"local_scheme": local_scheme},
+    #use_scm_version={'write_to': 'src/version.py'},
+    # use_scm_version=True,
     setup_requires=['setuptools_scm'],
+    #version="0.0.1",
     author="Example Author",
     author_email="author@example.com",
     description="A small example package",
