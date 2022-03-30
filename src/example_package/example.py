@@ -1,3 +1,3 @@
 def add_one(number):
-    number = number + 2
+    number = number + 3
     return number
