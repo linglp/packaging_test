@@ -12,6 +12,8 @@ on:
     #   - main
     # tags:
     #    - v*.*.*
+    tags-ignore:        
+      - staging*
     paths-ignore:
       - '**/*.md'
       - '**/.gitignore'
