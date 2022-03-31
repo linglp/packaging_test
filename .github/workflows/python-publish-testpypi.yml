@@ -1,5 +1,4 @@
 name: Publish to Test PyPI
-if: github.event_name == 'push' && contains(github.ref, 'refs/tags')
 on:
   push:
     tags:
@@ -9,6 +8,7 @@ on:
 jobs:
   test_pypi_release:
     runs-on: ubuntu-latest
+    if: github.event_name == 'push' && contains(github.ref, 'refs/tags')
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v2
