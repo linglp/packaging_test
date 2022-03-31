@@ -5,9 +5,9 @@ name: Test & Upload to TestPyPI
 # Controls when the action will run. 
 on:
   push:
-  tags:
-    - v*.*.*
-  branches: [main]
+    tags:
+      - v*.*.*
+    branches: [main]
     # branches:
     #   - main
     # tags:
