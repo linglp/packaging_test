@@ -4,6 +4,11 @@ version = "0.1.0"
 description = ""
 authors = ["Lingling <you@example.com>"]
 
+packages = [
+    { include = "my-example-project" },
+    { include = "my-example-project/**/*.py" },
+]
+
 [tool.poetry.dependencies]
 python = "^3.8"
 
