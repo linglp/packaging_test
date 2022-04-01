@@ -65,8 +65,8 @@ jobs:
       #----------------------------------------------      
       - run: poetry config repositories.testpypi https://test.pypi.org/legacy/
       - run: poetry config pypi-token.testpypi ${{ secrets.TWINE_TEST_TOKEN }}
-      - name: Publish package
-        run: poetry publish --build -r testpypi
+      - name: Publish package to test Pypi
+        run: poetry publish -vvvv --build -r testpypi
 
       #----------------------------------------------
       #    check tag
@@ -80,13 +80,13 @@ jobs:
       #----------------------------------------------
       #    publish to pypi
       #----------------------------------------------  
-      - name: Publish package
+      - name: Publish package to Pypi
         if: steps.check-tag.outputs.match == 'true'
         env:
           PYPI_TOKEN: ${{ secrets.PYPI_TOKEN }}
           PYPI_USERNAME: __token__
         run: |
-          poetry publish --build --username $PYPI_USERNAME --password $PYPI_TOKEN
+          poetry publish --username $PYPI_USERNAME --password $PYPI_TOKEN
 # This is a basic workflow to help you get started with Actions
 
 # name: Test & Upload to TestPyPI
