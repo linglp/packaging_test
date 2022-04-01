@@ -3,7 +3,7 @@ poetry-version-plugin = "poetry_version_plugin.plugin:VersionPlugin"
 
 [tool.poetry]
 name = "my-example-project"
-version = "0.1.1"
+version = "0.1.2"
 description = ""
 authors = ["Lingling <you@example.com>"]
 
