@@ -2,7 +2,7 @@ name: Publish to Test PyPI
 on:
   push:
     tags:
-      - 'v*.*.*'
+      - '*'
     branches: [main]
 
 jobs:
@@ -60,11 +60,33 @@ jobs:
       - name: Install library
         run: poetry install --no-interaction
 
+      #----------------------------------------------
+      #    publish to testpypi
+      #----------------------------------------------      
       - run: poetry config repositories.testpypi https://test.pypi.org/legacy/
       - run: poetry config pypi-token.testpypi ${{ secrets.TWINE_TEST_TOKEN }}
       - name: Publish package
         run: poetry publish --build -r testpypi
 
+      #----------------------------------------------
+      #    check tag
+      #----------------------------------------------      
+      - name: Check Tag
+        id: check-tag
+        run: |
+          if [[ ${{ github.event.ref }} =~ ^refs/tags/v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+              echo ::set-output name=match::true
+          fi
+      #----------------------------------------------
+      #    publish to pypi
+      #----------------------------------------------  
+      - name: Publish package
+        if: steps.check-tag.outputs.match == 'true'
+        env:
+          PYPI_TOKEN: ${{ secrets.PYPI_TOKEN }}
+          PYPI_USERNAME: __token__
+        run: |
+          poetry publish --build --username $PYPI_USERNAME --password $PYPI_TOKEN
 # This is a basic workflow to help you get started with Actions
 
 # name: Test & Upload to TestPyPI
