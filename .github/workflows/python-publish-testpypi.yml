@@ -22,8 +22,6 @@ jobs:
       #----------------------------------------------
       - name: Check out repository
         uses: actions/checkout@v2
-        with: 
-          path: ${{ env.DEVOPS_DIR }}
 
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v2
@@ -76,7 +74,7 @@ jobs:
       #    override version tag 
       #----------------------------------------------      
       - name: Override version tag
-        run: python ${{ env.DEVOPS_DIR }}/override_version.py
+        run: python3 override_version.py
 
       #----------------------------------------------
       #    publish to testpypi
