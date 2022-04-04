@@ -63,13 +63,20 @@ jobs:
       #----------------------------------------------
       #    get current pushed tag
       #----------------------------------------------      
+      # - name: Get current pushed tag
+      #   run: echo ::set-output name=tag::${GITHUB_REF#refs/*/}
+      # - name: Check release tag
+      #   env:
+      #     RELEASE_VERSION: ${{ steps.vars.outputs.tag }}
+      #   run: |
+      #     echo $RELEASE_VERSION
+      - name: Show GitHub ref
+        run: echo "$GITHUB_REF"
+
       - name: Get current pushed tag
-        run: echo ::set-output name=tag::${GITHUB_REF#refs/*/}
-      - name: Check release tag
-        env:
-          RELEASE_VERSION: ${{ steps.vars.outputs.tag }}
-        run: |
-          echo $RELEASE_VERSION
+        run:  |
+          echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+          echo ${{ env.RELEASE_VERSION }}
       #----------------------------------------------
       #    override version tag 
       #----------------------------------------------      
