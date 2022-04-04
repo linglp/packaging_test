@@ -61,6 +61,23 @@ jobs:
         run: poetry install --no-interaction
 
       #----------------------------------------------
+      #    get current pushed tag
+      #----------------------------------------------      
+      - name: Get current pushed tag
+        run: echo ::set-output name=tag::${GITHUB_REF#refs/*/}
+      - name: Check release tag
+        env:
+          RELEASE_VERSION: ${{ steps.vars.outputs.tag }}
+        run: |
+          echo $RELEASE_VERSION
+      #----------------------------------------------
+      #    override version tag 
+      #----------------------------------------------      
+      - name: Override version tag
+      - run: |
+        python3 override_version.py
+
+      #----------------------------------------------
       #    publish to testpypi
       #----------------------------------------------      
       - run: poetry config repositories.testpypi https://test.pypi.org/legacy/
