@@ -76,7 +76,7 @@ jobs:
       #    override version tag 
       #----------------------------------------------      
       - name: Override version tag
-      - run: python ${{ env.DEVOPS_DIR }}/override_version.py
+        run: python ${{ env.DEVOPS_DIR }}/override_version.py
 
       #----------------------------------------------
       #    publish to testpypi
