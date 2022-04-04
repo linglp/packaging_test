@@ -74,7 +74,7 @@ jobs:
       #    override version tag 
       #----------------------------------------------      
       - name: Override version tag
-        run: python3 override_version.py
+        run: poetry run python3 override_version.py
 
       #----------------------------------------------
       #    publish to testpypi
