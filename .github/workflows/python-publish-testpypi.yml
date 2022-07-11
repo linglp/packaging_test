@@ -111,7 +111,7 @@ jobs:
           PYPI_TOKEN: ${{ secrets.PYPI_TOKEN }}
           PYPI_USERNAME: __token__
         run: |
-          poetry publish --username $PYPI_USERNAME --password $PYPI_TOKEN
+          poetry publish --build --username $PYPI_USERNAME --password $PYPI_TOKEN
 # This is a basic workflow to help you get started with Actions
 
 # name: Test & Upload to TestPyPI
