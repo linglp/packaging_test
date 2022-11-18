@@ -107,11 +107,30 @@ jobs:
       #----------------------------------------------  
       - name: Publish package to Pypi
         if: steps.check-tag.outputs.match == 'true'
+        id: publish-to-pypi
         env:
           PYPI_TOKEN: ${{ secrets.PYPI_TOKEN }}
           PYPI_USERNAME: __token__
         run: |
           poetry publish --build --username $PYPI_USERNAME --password $PYPI_TOKEN
+
+      #----------------------------------------------
+      #    post a message to slack
+      #----------------------------------------------  
+      - name: Post to a Slack channel
+        if: steps.publish-to-pypi.outcome == 'success'
+        id: slack
+        uses: slackapi/slack-github-action@v1.23.0
+        with:
+          # Slack channel id, channel name, or user id to post message.
+          # See also: https://api.slack.com/methods/chat.postMessage#channels
+          # You can pass in multiple channels to post to by providing a comma-delimited list of channel IDs.
+          channel-id: 'C04B7K10YTZ'
+          # For posting a simple plain text message
+          slack-message: "my example package has just been released. Check out version: ${{ github.event.ref }}"
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+
 # This is a basic workflow to help you get started with Actions
 
 # name: Test & Upload to TestPyPI
