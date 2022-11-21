@@ -120,7 +120,7 @@ jobs:
       - name: Test front-end deployment
         run: |
           curl -X POST \
-          -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+          -H "Authorization: token ${{ secrets.ACCESS_TOKEN }}" \
           -H "Accept: application/vnd.github+json" \
           https://api.github.com/repos/linglp/test-frontend/dispatches \
           -d '{"event_type": "trigger-frontend", "client_payload": { "text": "a title"}}'
