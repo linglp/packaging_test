@@ -118,7 +118,7 @@ jobs:
       #    trigger front-end deployment
       #----------------------------------------------  
       - name: Test front-end deployment
-      run: |
+        run: |
           curl -X POST \
           -H "Authorization: Bearer ${{secrets.ACCESS_TOKEN}}" \
           -H "Accept: application/vnd.github.v3+json" \
