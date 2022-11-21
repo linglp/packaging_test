@@ -115,21 +115,33 @@ jobs:
           poetry publish --build --username $PYPI_USERNAME --password $PYPI_TOKEN
 
       #----------------------------------------------
+      #    trigger front-end deployment
+      #----------------------------------------------  
+      - name: Test front-end deployment
+      run: |
+          curl -X POST \
+          -H "Authorization: Bearer ${{secrets.ACCESS_TOKEN}}" \
+          -H "Accept: application/vnd.github.v3+json" \
+          https://api.github.com/repos/linglp/test-frontend/actions/workflows/test-deploy.yml/dispatches \
+          -data '{"ref": "main", "event_type": "trigger-frontend"}'
+
+
+      #----------------------------------------------
       #    post a message to slack
       #----------------------------------------------  
-      - name: Post to a Slack channel
-        if: steps.publish-to-pypi.outcome == 'success'
-        id: slack
-        uses: slackapi/slack-github-action@v1.23.0
-        with:
-          # Slack channel id, channel name, or user id to post message.
-          # See also: https://api.slack.com/methods/chat.postMessage#channels
-          # You can pass in multiple channels to post to by providing a comma-delimited list of channel IDs.
-          channel-id: 'C04B7K10YTZ'
-          # For posting a simple plain text message
-          slack-message: "my example package has just been released. Check out version: ${{ github.ref_name }}"
-        env:
-          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+      # - name: Post to a Slack channel
+      #   if: steps.publish-to-pypi.outcome == 'success'
+      #   id: slack
+      #   uses: slackapi/slack-github-action@v1.23.0
+      #   with:
+      #     # Slack channel id, channel name, or user id to post message.
+      #     # See also: https://api.slack.com/methods/chat.postMessage#channels
+      #     # You can pass in multiple channels to post to by providing a comma-delimited list of channel IDs.
+      #     channel-id: 'C04B7K10YTZ'
+      #     # For posting a simple plain text message
+      #     slack-message: "my example package has just been released. Check out version: ${{ github.ref_name }}"
+      #   env:
+      #     SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
 
 # This is a basic workflow to help you get started with Actions
 
