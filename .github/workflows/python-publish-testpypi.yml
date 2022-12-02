@@ -114,6 +114,10 @@ jobs:
         run: |
           poetry publish --build --username $PYPI_USERNAME --password $PYPI_TOKEN
 
+      - name: Compute short commit SHA ID
+        id: vars
+        run: echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
+
       #----------------------------------------------
       #    trigger front-end deployment
       #----------------------------------------------  
@@ -123,7 +127,7 @@ jobs:
           -H "Authorization: token ${{ secrets.ACCESS_TOKEN }}" \
           -H "Accept: application/vnd.github+json" \
           https://api.github.com/repos/linglp/test-frontend/dispatches \
-          -d '{"event_type": "trigger-frontend", "client_payload": { "branch": ${{ github.ref_name }}, "commit-sha": ${{ github.sha }} }'
+          -d '{"event_type": "trigger-frontend", "client_payload": '{ "branch": "'${{ github.ref_name }}'", "commit-sha": "'${{ steps.vars.outputs.sha_short }} }'" '
 
 
       #----------------------------------------------
