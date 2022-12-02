@@ -118,12 +118,14 @@ jobs:
       #    trigger front-end deployment
       #----------------------------------------------  
       - name: Test front-end deployment
+        env:
+          COMMIT-SHA: ${{ github.sha }}
         run: |
           curl -X POST \
           -H "Authorization: token ${{ secrets.ACCESS_TOKEN }}" \
           -H "Accept: application/vnd.github+json" \
           https://api.github.com/repos/linglp/test-frontend/dispatches \
-          -d '{"event_type": "trigger-frontend", "client_payload": { "text": "a title"}}'
+          -d '{"event_type": "trigger-frontend", "client_payload": { "branch": "$GITHUB_REF", "commit-sha": $COMMIT-SHA }'
 
 
       #----------------------------------------------
