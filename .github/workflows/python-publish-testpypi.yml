@@ -74,10 +74,10 @@ jobs:
         run: echo "$GITHUB_REF"
 
       - name: Get current pushed tag
+        id: getReleaseVersion
         run:  |
           echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
           echo ${{ env.RELEASE_VERSION }}
-          
       #----------------------------------------------
       #    override version tag 
       #----------------------------------------------      
@@ -119,7 +119,7 @@ jobs:
         run: echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
 
       #----------------------------------------------
-      #    trigger front-end deployment
+      #    trigger front-end deployment one
       #----------------------------------------------  
       - name: Test front-end deployment
         run: |
@@ -127,7 +127,9 @@ jobs:
           -H "Authorization: token ${{ secrets.ACCESS_TOKEN }}" \
           -H "Accept: application/vnd.github+json" \
           https://api.github.com/repos/linglp/test-frontend/dispatches \
-          -d '{"event_type": "trigger-frontend", "client_payload": { "branch": "'${{ github.ref_name }}'", "commit-sha": "'${{ steps.vars.outputs.sha_short }}'"}'
+          -d '{"event_type": "trigger-frontend", "client_payload": { "branch": "'${{ github.ref_name }}'", "commit-sha": "'${{ steps.vars.outputs.sha_short }}'",  "release-version": "${{ env.RELEASE_VERSION }}"}'
+
+
 
 
       #----------------------------------------------
