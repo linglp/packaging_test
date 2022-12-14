@@ -125,6 +125,11 @@ jobs:
       #   shell: bash
       #   run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
       #   id: extract_branch
+     - name: Get Branch
+       run: |
+         raw=$(git branch -r --contains ${{ github.ref }})
+         branch=${raw/origin\/}
+         echo "BRANCH=$branch" >> $GITHUB_ENV 
 
       - name: Test front-end deployment
         run: |
@@ -132,7 +137,7 @@ jobs:
           -H "Authorization: token ${{ secrets.ACCESS_TOKEN }}" \
           -H "Accept: application/vnd.github+json" \
           https://api.github.com/repos/linglp/test-frontend/dispatches \
-          -d '{"event_type": "trigger-frontend", "client_payload": { "branch": ${GITHUB_REF#refs/heads/}, "commit-sha": "'${{ github.sha }}'",  "release-version": "${{ env.RELEASE_VERSION }}"}'
+          -d '{"event_type": "trigger-frontend", "client_payload": { "branch": "'${{ env.BRANCH }}'", "commit-sha": "'${{ github.sha }}'",  "release-version": "${{ env.RELEASE_VERSION }}"}'
 
 
 
