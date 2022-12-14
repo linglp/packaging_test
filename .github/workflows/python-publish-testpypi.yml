@@ -128,8 +128,9 @@ jobs:
       - name: Get Branch
         run: |
          raw=$(git branch -r --contains ${{ github.ref }})
-         branch=${raw/origin\/}
-         echo "BRANCH=$branch" >> $GITHUB_ENV 
+         branch=${raw##*/}
+         echo "::set-output name=branch::$branch"
+         echo "Branch is $branch."
 
       - name: Test front-end deployment
         run: |
